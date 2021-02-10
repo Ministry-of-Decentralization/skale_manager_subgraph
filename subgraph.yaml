@@ -1,0 +1,59 @@
+specVersion: 0.0.2
+description: Skake Manager Subgraph
+repository: https://github.com/Ministry-Of-Decenralization/skale_manager_subgraph
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: ValidatorService
+    network: mainnet
+    source:
+      address: '0x840C8122433A5AA7ad60C1Bcdc36AB9DcCF761a5'
+      abi: ValidatorService
+      startBlock: 10362576
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Validator
+        - ValidatorMeta
+        - NodeAddress
+      abis:
+        - name: ValidatorService
+          file: ./abis/ValidatorService.json
+      callHandlers:
+        - function: registerValidator(string,string,uint256,uint256)
+          handler: handleRegisterValidator
+      eventHandlers:
+        - event: ValidatorWasEnabled(uint256)
+          handler: handleValidatorWasEnabled
+        - event: ValidatorWasDisabled(uint256)
+          handler: handleValidatorWasDisabled
+        - event: ValidatorAddressChanged(uint256,address)
+          handler: handleValidatorAddressChanged
+        - event: NodeAddressWasAdded(uint256,address)
+          handler: handleNodeAddressWasAdded
+        - event: NodeAddressWasRemoved(uint256,address)
+          handler: handleNodeAddressWasRemoved
+      file: ./src/mapping.ts
+  - kind: ethereum/contract
+    name: Nodes
+    network: mainnet
+    source:
+      address: '0xD489665414D051336CE2F2C6e4184De0409e40ba'
+      abi: Nodes
+      startBlock: 10362579	
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Node
+      abis:
+        - name: Nodes
+          file: ./abis/Nodes.json
+      eventHandlers:
+        - event: NodeCreated(uint256,address,string,bytes4,bytes4,uint16,uint16,uint256,uint256)
+          handler: handleNodeCreated
+      file: ./src/mapping.ts

@@ -1,0 +1,48 @@
+type Block @entity {
+  id: ID!
+  hash: String!
+  number: BigInt!
+  timestamp: BigInt!
+  validators: [Validator!]! @derivedFrom(field: "registeredBlock")
+  nodes: [Node!]! @derivedFrom(field: "startBlock")
+}
+
+type Validator @entity {
+  id: ID!
+  name: String!
+  address: Bytes!
+  requestedAddress: Bytes!
+  description: String
+  feeRate: BigInt!
+  registrationTime: BigInt!
+  minimumDelegationAmount: BigInt!
+  acceptNewRequests: Boolean!
+  isEnabled: Boolean!
+  nodeAddresses: [NodeAddress!]! @derivedFrom(field: "validator")
+  nodes: [Node!]! @derivedFrom(field: "validator")
+  registeredBlock: Block!
+}
+
+type NodeAddress @entity {
+  id: ID!
+  node: Node @derivedFrom(field: "address")
+  validator: Validator
+}
+
+type ValidatorMeta @entity {
+  id: ID!
+  count: BigInt!
+}
+
+type Node @entity {
+  id: ID!
+  name: String!
+  ip: Bytes!
+  publicIP: Bytes!
+  port:  BigInt!
+  address: NodeAddress
+  startBlock: Block!
+  lastRewardDate: BigInt!
+  status: String!
+  validator: Validator
+}
