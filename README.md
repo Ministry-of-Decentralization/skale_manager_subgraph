@@ -22,4 +22,4 @@ in `docker-compose.yaml` replace `NODE_ENDPOINT` with your mainnet rpc endpoint
 
 `yarn deploy-local`
 
-If successful the subgraph will be avaiable to query at http://127.0.0.1:8000/subgraphs/name/Ministry-Of-Decentralization/skale_manager_subgraph
+If successful the subgraph will be available to query at http://127.0.0.1:8000/subgraphs/name/Ministry-Of-Decentralization/skale_manager_subgraph

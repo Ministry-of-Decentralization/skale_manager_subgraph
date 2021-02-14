@@ -5,6 +5,7 @@ type Block @entity {
   timestamp: BigInt!
   validators: [Validator!]! @derivedFrom(field: "registeredBlock")
   nodes: [Node!]! @derivedFrom(field: "startBlock")
+  delegations: [Delegation!]! @derivedFrom(field: "delegatedBlock")
 }
 
 type Validator @entity {
@@ -21,6 +22,7 @@ type Validator @entity {
   nodeAddresses: [NodeAddress!]! @derivedFrom(field: "validator")
   nodes: [Node!]! @derivedFrom(field: "validator")
   registeredBlock: Block!
+  delegations: [Delegation!]! @derivedFom(field: "validator")
 }
 
 type NodeAddress @entity {
@@ -45,4 +47,28 @@ type Node @entity {
   lastRewardDate: BigInt!
   status: String!
   validator: Validator
+}
+
+type Delegator @entity {
+  id: ID!
+  delegations: Delegation @derivedFrom(field: "holder")
+}
+
+type DelegationMeta @entity {
+  id: ID!
+  count: BigInt!
+}
+
+type Delegation @entity {
+  id: ID!
+  state: String!
+  holder: Delegator!
+  validator: Validator!
+  amount: BigInt!
+  delegationPeriod: BigInt!
+  created: BigInt!
+  started: BigInt!
+  finished: BigInt!
+  info: String!
+  delegatedBlock: Block!
 }

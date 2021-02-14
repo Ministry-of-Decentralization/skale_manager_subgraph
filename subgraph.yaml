@@ -36,7 +36,8 @@ dataSources:
           handler: handleNodeAddressWasAdded
         - event: NodeAddressWasRemoved(uint256,address)
           handler: handleNodeAddressWasRemoved
-      file: ./src/mapping.ts
+      file: ./src/mappings/Validators.ts
+
   - kind: ethereum/contract
     name: Nodes
     network: mainnet
@@ -56,4 +57,36 @@ dataSources:
       eventHandlers:
         - event: NodeCreated(uint256,address,string,bytes4,bytes4,uint16,uint16,uint256,uint256)
           handler: handleNodeCreated
-      file: ./src/mapping.ts
+        - event: ExitInitialized(uint256,uint256,uint256,uint256)
+          handler: handleExitInitialized
+        - event: ExitCompleteded(uint256,uint256,uint256)
+          handler: handleExitCompleted
+      file: ./src/mappings/Nodes.ts
+
+  - kind: ethereum/contract
+    name: DelegationController
+    network: mainnet
+    source:
+      address: '0x06dD71dAb27C1A3e0B172d53735f00Bf1a66Eb79'
+      abi: DelegationController
+      startBlock: 10362559	
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Node
+      abis:
+        - name: DelegationController
+          file: ./abis/DelegationController.json
+      callHandlers:
+        - function: delegate(uint256,uint256,uint256,string)
+          handler: handleDelegate
+      eventHandlers:
+        - event: DelegationAccepted(uint256)
+          handler: handleDelegationAccepted
+        - event: DelegationRequestCanceledByUser(uint256)
+          handler: handleDelegationRequestCanceledByUser
+        - event: UndelegationRequested(uint256)
+          handler: handleUndelegationRequested
+      file: ./src/mappings/Delegations.ts
