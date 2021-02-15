@@ -22,10 +22,9 @@ dataSources:
       abis:
         - name: ValidatorService
           file: ./abis/ValidatorService.json
-      callHandlers:
-        - function: registerValidator(string,string,uint256,uint256)
-          handler: handleRegisterValidator
       eventHandlers:
+        - event: ValidatorRegistered(uint256)
+          handler: handleValidatorRegistered
         - event: ValidatorWasEnabled(uint256)
           handler: handleValidatorWasEnabled
         - event: ValidatorWasDisabled(uint256)
@@ -37,6 +36,7 @@ dataSources:
         - event: NodeAddressWasRemoved(uint256,address)
           handler: handleNodeAddressWasRemoved
       file: ./src/mapping.ts
+      
   - kind: ethereum/contract
     name: Nodes
     network: mainnet
