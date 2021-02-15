@@ -17,8 +17,7 @@ services:
       postgres_pass: let-me-in
       postgres_db: graph-node
       ipfs: 'ipfs:5001'
-      # ethereum: 'development:http://172.18.0.1:8545'
-      ethereum: 'mainnet:NODE_ENDPOINT'
+      ethereum: 'mainnet:http://172.18.0.1:8545'
       RUST_LOG: info
       RUST_BACKTRACE: 1
       ETHEREUM_REORG_THRESHOLD: 2

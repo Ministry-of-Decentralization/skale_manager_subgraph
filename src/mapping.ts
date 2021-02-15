@@ -4,11 +4,12 @@ import {
   ValidatorAddressChanged,
   NodeAddressWasAdded,
   NodeAddressWasRemoved,
-  RegisterValidatorCall
+  ValidatorRegistered,
+  ValidatorService
  } from '../generated/ValidatorService/ValidatorService'
 import { NodeCreated } from '../generated/Nodes/Nodes'
 import { Validator, ValidatorMeta, Node, NodeAddress,  Block } from '../generated/schema'
-import { ethereum, Bytes, BigInt, store } from '@graphprotocol/graph-ts'
+import { ethereum, BigInt, store } from '@graphprotocol/graph-ts'
 
 let NODE_STATUS = new Map<number, string>()
 NODE_STATUS.set(0, 'Active')
@@ -94,26 +95,29 @@ export function handleNodeCreated(event: NodeCreated): void {
   node.save()
 }
 
-export function handleRegisterValidator(call: RegisterValidatorCall): void {
+export function handleValidatorRegistered(event: ValidatorRegistered): void {
   let meta = getOrCreateValidatorMeta()
-  let tdwo = BigInt.fromI32(1)
-  tdwo.plus(new BigInt(3))
   meta.count = meta.count. plus(BigInt.fromI32(1))
-  let validator = new Validator(meta.count.toString())
-  let block = getOrCreateBlock(call.block)
-
   meta.save()
-  
-  validator.name = call.inputValues[0].value.toString()
-  validator.description = call.inputValues[1].value.toString()
-  validator.feeRate = call.inputValues[2].value.toBigInt()
-  validator.minimumDelegationAmount = call.inputValues[3].value.toBigInt()
 
-  validator.address = call.transaction.from
-  validator.requestedAddress = new Bytes(0x0)
+  let block = getOrCreateBlock(event.block)
 
-  validator.registrationTime = call.block.timestamp
-  validator.acceptNewRequests = true
+  let validator = new Validator(event.params.validatorId.toString())
+
+  let contract = ValidatorService.bind(event.address)
+
+  let validatorValues = contract.validators(event.params.validatorId)
+
+  validator.name = validatorValues.value0
+  validator.description = validatorValues.value3
+  validator.feeRate = validatorValues.value4
+  validator.minimumDelegationAmount = validatorValues.value6
+
+  validator.address = validatorValues.value1
+  validator.requestedAddress = validatorValues.value2
+
+  validator.registrationTime = validatorValues.value5
+  validator.acceptNewRequests = validatorValues.value7
   validator.isEnabled = false
   validator.registeredBlock = block
 

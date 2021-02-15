@@ -4,6 +4,7 @@
   "description": "Subgraph for Skale Network",
   "license": "AGPL-3.0",
   "scripts": {
+    "fork-mainnet": "npx hardhat node --hostname 0.0.0.0 --fork NODE_ENDPOINT --fork-block-number 10921255",
     "codegen": "graph codegen",
     "build": "graph build",
     "create-local": "graph create Ministry-Of-Decentralization/skale_manager_subgraph --node http://127.0.0.1:8020",
