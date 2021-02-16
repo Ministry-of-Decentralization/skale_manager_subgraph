@@ -4,7 +4,7 @@ import {
   ValidatorAddressChanged,
   NodeAddressWasAdded,
   NodeAddressWasRemoved,
-  ValidatorRegistered.
+  ValidatorRegistered,
   ValidatorService
  } from '../../generated/ValidatorService/ValidatorService'
 import { Validator, ValidatorMeta, NodeAddress } from '../../generated/schema'

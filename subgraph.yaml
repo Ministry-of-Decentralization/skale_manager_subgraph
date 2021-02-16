@@ -58,7 +58,7 @@ dataSources:
           handler: handleNodeCreated
         - event: ExitInitialized(uint256,uint256,uint256,uint256)
           handler: handleExitInitialized
-        - event: ExitCompleteded(uint256,uint256,uint256)
+        - event: ExitCompleted(uint256,uint256,uint256)
           handler: handleExitCompleted
       file: ./src/mappings/Nodes.ts
 
@@ -74,14 +74,15 @@ dataSources:
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - Node
+        - Delegation
+        - DelegationMeta
+        - Delegator
       abis:
         - name: DelegationController
           file: ./abis/DelegationController.json
-      callHandlers:
-        - function: delegate(uint256,uint256,uint256,string)
-          handler: handleDelegate
       eventHandlers:
+        - event: DelegationProposed(uint256)
+          handler: handleDelegationProposed
         - event: DelegationAccepted(uint256)
           handler: handleDelegationAccepted
         - event: DelegationRequestCanceledByUser(uint256)
