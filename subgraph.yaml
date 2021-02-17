@@ -77,6 +77,7 @@ dataSources:
         - Delegation
         - DelegationMeta
         - Delegator
+        - Validator
       abis:
         - name: DelegationController
           file: ./abis/DelegationController.json

@@ -8,6 +8,11 @@ type Block @entity {
   delegations: [Delegation!]! @derivedFrom(field: "delegatedBlock")
 }
 
+type ValidatorMeta @entity {
+  id: ID!
+  currentCount: BigInt!
+}
+
 type Validator @entity {
   id: ID!
   name: String!
@@ -23,17 +28,14 @@ type Validator @entity {
   nodeAddresses: [NodeAddress!]! @derivedFrom(field: "validator")
   nodes: [Node!]! @derivedFrom(field: "validator")
   delegations: [Delegation!] @derivedFom(field: "validator")
+  currentDelegationCount: BigInt!
+  currentDelegationAmount: BigInt!
 }
 
 type NodeAddress @entity {
   id: ID!
   node: Node @derivedFrom(field: "address")
   validator: Validator
-}
-
-type ValidatorMeta @entity {
-  id: ID!
-  count: BigInt!
 }
 
 type Node @entity {
@@ -51,13 +53,15 @@ type Node @entity {
 
 type Delegator @entity {
   id: ID!
-  delegations: Delegation @derivedFrom(field: "holder")
+  delegations: [Delegation!]! @derivedFrom(field: "holder")
+  currentCount: BigInt!
+  currentAmount: BigInt!
 }
 
 type DelegationMeta @entity {
   id: ID!
-  count: BigInt!
-  delegatorCount: BigInt!
+  currentCount: BigInt!
+  currentAmount: BigInt!
 }
 
 type Delegation @entity {

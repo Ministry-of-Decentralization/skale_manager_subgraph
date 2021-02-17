@@ -8,28 +8,45 @@ import {
   ValidatorService
  } from '../../generated/ValidatorService/ValidatorService'
 import { Validator, ValidatorMeta, NodeAddress } from '../../generated/schema'
-import { BigInt, store } from '@graphprotocol/graph-ts'
-import { getOrCreateBlock } from './common'
+import { store } from '@graphprotocol/graph-ts'
+import { getOrCreateBlock, ZERO, ONE } from './common'
+
+const VALIDATION_META_ID = 'validator_meta'
 
 function getOrCreateValidatorMeta(): ValidatorMeta {
-  let meta = ValidatorMeta.load('meta')
+  let meta = ValidatorMeta.load(VALIDATION_META_ID)
+
   if (meta == null) {
-    meta = new ValidatorMeta('meta')
-    meta.count = new BigInt(0)
+    meta = new ValidatorMeta(VALIDATION_META_ID)
+    meta.currentCount = ZERO
+
     meta.save()
   }
+
   return meta as ValidatorMeta
 }
 
 export function handleValidatorWasEnabled(event: ValidatorWasEnabled): void {
-    let validator = Validator.load(event.params.validatorId.toString())
-    validator.isEnabled = true
-    validator.save()
+  let meta = getOrCreateValidatorMeta()
+  meta.currentCount = meta.currentCount.plus(ONE)
+
+  meta.save()
+
+  let validator = Validator.load(event.params.validatorId.toString())
+  validator.isEnabled = true
+
+  validator.save()
 }
 
 export function handleValidatorWasDisabled(event: ValidatorWasDisabled): void {
+  let meta = getOrCreateValidatorMeta()
+  meta.currentCount = meta.currentCount.minus(ONE)
+
+  meta.save()
+
   let validator = Validator.load(event.params.validatorId.toString())
   validator.isEnabled = false
+
   validator.save()
 }
  
@@ -42,6 +59,7 @@ export function handleValidatorAddressChanged(event: ValidatorAddressChanged): v
 export function handleNodeAddressWasAdded(event: NodeAddressWasAdded): void {
   let address = event.params.nodeAddress.toHex()
   let nodeAddress = NodeAddress.load(address)
+  
 
   if (nodeAddress == null) {
     nodeAddress = new NodeAddress(address)
@@ -49,6 +67,7 @@ export function handleNodeAddressWasAdded(event: NodeAddressWasAdded): void {
   }
 
   nodeAddress.validator = event.params.validatorId.toString()
+
   nodeAddress.save()
 }
 
@@ -57,17 +76,10 @@ export function handleNodeAddressWasRemoved(event: NodeAddressWasRemoved): void 
 }
 
 export function handleValidatorRegistered(event: ValidatorRegistered): void {
-  let meta = getOrCreateValidatorMeta()
-  meta.count = meta.count. plus(BigInt.fromI32(1))
-  meta.save()
-
-  let block = getOrCreateBlock(event.block)
-
-  let validator = new Validator(event.params.validatorId.toString())
-
   let contract = ValidatorService.bind(event.address)
-
   let validatorValues = contract.validators(event.params.validatorId)
+  let block = getOrCreateBlock(event.block)
+  let validator = new Validator(event.params.validatorId.toString())
 
   validator.name = validatorValues.value0
   validator.description = validatorValues.value3
@@ -79,6 +91,8 @@ export function handleValidatorRegistered(event: ValidatorRegistered): void {
   validator.acceptNewRequests = validatorValues.value7
   validator.isEnabled = false
   validator.registeredBlock = block
+  validator.currentDelegationCount = ZERO
+  validator.currentDelegationAmount = ZERO
 
   validator.save()
 }
