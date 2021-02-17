@@ -6,50 +6,47 @@ import {
   NodeAddressWasRemoved,
   ValidatorRegistered,
   ValidatorService
- } from '../generated/ValidatorService/ValidatorService'
-import { NodeCreated } from '../generated/Nodes/Nodes'
-import { Validator, ValidatorMeta, Node, NodeAddress,  Block } from '../generated/schema'
-import { ethereum, BigInt, store } from '@graphprotocol/graph-ts'
+ } from '../../generated/ValidatorService/ValidatorService'
+import { Validator, ValidatorMeta, NodeAddress } from '../../generated/schema'
+import { store } from '@graphprotocol/graph-ts'
+import { getOrCreateBlock, ZERO, ONE } from './common'
 
-let NODE_STATUS = new Map<number, string>()
-NODE_STATUS.set(0, 'Active')
-NODE_STATUS.set(1, 'Leaving')
-NODE_STATUS.set(2, 'Left')
-NODE_STATUS.set(3, 'In_Maintenance')
-
-function getOrCreateBlock(_block: ethereum.Block): string {
-  let hash = _block.hash.toHex()
-  let block = Block.load(hash)
-  if (block == null) {
-    block = new Block(hash)
-    block.hash = hash
-    block.number = _block.number
-    block.timestamp = _block.timestamp
-    block.save()
-  }
-
-  return block.id
-}
+const VALIDATION_META_ID = 'validator_meta'
 
 function getOrCreateValidatorMeta(): ValidatorMeta {
-  let meta = ValidatorMeta.load('meta')
+  let meta = ValidatorMeta.load(VALIDATION_META_ID)
+
   if (meta == null) {
-    meta = new ValidatorMeta('meta')
-    meta.count = new BigInt(0)
+    meta = new ValidatorMeta(VALIDATION_META_ID)
+    meta.currentCount = ZERO
+
     meta.save()
   }
+
   return meta as ValidatorMeta
 }
 
 export function handleValidatorWasEnabled(event: ValidatorWasEnabled): void {
-    let validator = Validator.load(event.params.validatorId.toString())
-    validator.isEnabled = true
-    validator.save()
+  let meta = getOrCreateValidatorMeta()
+  meta.currentCount = meta.currentCount.plus(ONE)
+
+  meta.save()
+
+  let validator = Validator.load(event.params.validatorId.toString())
+  validator.isEnabled = true
+
+  validator.save()
 }
 
 export function handleValidatorWasDisabled(event: ValidatorWasDisabled): void {
+  let meta = getOrCreateValidatorMeta()
+  meta.currentCount = meta.currentCount.minus(ONE)
+
+  meta.save()
+
   let validator = Validator.load(event.params.validatorId.toString())
   validator.isEnabled = false
+
   validator.save()
 }
  
@@ -62,6 +59,7 @@ export function handleValidatorAddressChanged(event: ValidatorAddressChanged): v
 export function handleNodeAddressWasAdded(event: NodeAddressWasAdded): void {
   let address = event.params.nodeAddress.toHex()
   let nodeAddress = NodeAddress.load(address)
+  
 
   if (nodeAddress == null) {
     nodeAddress = new NodeAddress(address)
@@ -69,6 +67,7 @@ export function handleNodeAddressWasAdded(event: NodeAddressWasAdded): void {
   }
 
   nodeAddress.validator = event.params.validatorId.toString()
+
   nodeAddress.save()
 }
 
@@ -76,50 +75,24 @@ export function handleNodeAddressWasRemoved(event: NodeAddressWasRemoved): void 
   store.remove("NodeAddress", event.params.nodeAddress.toHex())
 }
 
-export function handleNodeCreated(event: NodeCreated): void {
-  let node = new Node(event.params.nodeIndex.toString())
-  let nodeAddress = NodeAddress.load(event.params.owner.toHex())
-  let block = getOrCreateBlock(event.block)
-  
-  node.name = event.params.name
-  node.ip = event.params.ip
-  node.publicIP = event.params.publicIP
-  node.port = BigInt.fromI32(event.params.port)
-  node.address = nodeAddress.id
-  node.startBlock = block
-  node.lastRewardDate = new BigInt(0)
-  node.status = NODE_STATUS.get(0)
-  node.validator = nodeAddress.validator
-  node.startBlock = block
-
-  node.save()
-}
-
 export function handleValidatorRegistered(event: ValidatorRegistered): void {
-  let meta = getOrCreateValidatorMeta()
-  meta.count = meta.count. plus(BigInt.fromI32(1))
-  meta.save()
-
-  let block = getOrCreateBlock(event.block)
-
-  let validator = new Validator(event.params.validatorId.toString())
-
   let contract = ValidatorService.bind(event.address)
-
   let validatorValues = contract.validators(event.params.validatorId)
+  let block = getOrCreateBlock(event.block)
+  let validator = new Validator(event.params.validatorId.toString())
 
   validator.name = validatorValues.value0
   validator.description = validatorValues.value3
   validator.feeRate = validatorValues.value4
   validator.minimumDelegationAmount = validatorValues.value6
-
   validator.address = validatorValues.value1
   validator.requestedAddress = validatorValues.value2
-
   validator.registrationTime = validatorValues.value5
   validator.acceptNewRequests = validatorValues.value7
   validator.isEnabled = false
   validator.registeredBlock = block
+  validator.currentDelegationCount = ZERO
+  validator.currentDelegationAmount = ZERO
 
   validator.save()
 }
