@@ -1,20 +1,23 @@
 type Block @entity {
-  id: ID!
-  hash: String!
+  "A mined Ethereum Block with references to Skale Network related updates"
+  id: ID! # block hash
   number: BigInt!
   timestamp: BigInt!
   validators: [Validator!]! @derivedFrom(field: "registeredBlock")
   nodes: [Node!]! @derivedFrom(field: "startBlock")
   delegations: [Delegation!]! @derivedFrom(field: "delegatedBlock")
+  schains: [Schain!]! @derivedFrom(field: "createdBlock")
 }
 
 type ValidatorMeta @entity {
+  "Statistics for all validators"
   id: ID!
   currentCount: BigInt!
 }
 
 type Validator @entity {
-  id: ID!
+  "Single validator"
+  id: ID! # on chain validatorId
   name: String!
   address: Bytes!
   requestedAddress: Bytes!
@@ -33,13 +36,15 @@ type Validator @entity {
 }
 
 type NodeAddress @entity {
-  id: ID!
+  "Mapping of address to node"
+  id: ID! # address
   node: Node @derivedFrom(field: "address")
   validator: Validator
 }
 
 type Node @entity {
-  id: ID!
+  "Single node"
+  id: ID! # contract nodeId
   name: String!
   ip: Bytes!
   publicIP: Bytes!
@@ -49,23 +54,27 @@ type Node @entity {
   lastRewardDate: BigInt!
   status: String!
   validator: Validator
+  schains: [SchainNode!]! @derivedFom(field: "node")
 }
 
 type Delegator @entity {
-  id: ID!
+  "Statistics for a single Delegator"
+  id: ID! # address
   delegations: [Delegation!]! @derivedFrom(field: "holder")
   currentCount: BigInt!
   currentAmount: BigInt!
 }
 
 type DelegationMeta @entity {
+  "Statistics for all Delegators"
   id: ID!
   currentCount: BigInt!
   currentAmount: BigInt!
 }
 
 type Delegation @entity {
-  id: ID!
+  "Single Delegation"
+  id: ID! # contract delegationId 
   state: String!
   holder: Delegator!
   validator: Validator!
@@ -76,4 +85,37 @@ type Delegation @entity {
   finished: BigInt!
   info: String!
   delegatedBlock: Block!
+}
+
+type SchainMeta @entity {
+  "Statistics for all Skale Chains"
+  id: ID!
+  currentCount: BigInt!
+}
+
+type SchainOwner @entity {
+  "Statistics for individual Skale Chain owners"
+  id: ID! # address
+  currentCount: BigInt!
+}
+
+type SchainNode @entity {
+  "Mapping of Skale Chain to Node"
+  id: ID! # schain.id + node.id
+  schain: Schain!
+  node: Node!
+}
+
+type Schain @entity {
+  "Single Schain"
+  id: ID! # contract schainId
+  owner: SchainOwner!
+  name: String!
+  partOfNode: BigInt!
+  lifetime: BigInt!
+  deposit: BigInt!
+  nonce: Int!
+  createdBlock: Block!
+  nodesCount: BigInt!
+  nodes: [SchainNode!]! @derivedFom(field: "schain")
 }
