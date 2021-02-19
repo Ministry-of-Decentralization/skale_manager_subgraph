@@ -7,7 +7,6 @@ export function getOrCreateBlock(_block: ethereum.Block): string {
 
   if (block == null) {
     block = new Block(hash)
-    block.hash = hash
     block.number = _block.number
     block.timestamp = _block.timestamp
 

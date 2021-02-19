@@ -91,3 +91,54 @@ dataSources:
         - event: UndelegationRequested(uint256)
           handler: handleUndelegationRequested
       file: ./src/mappings/Delegations.ts
+
+  - kind: ethereum/contract
+    name: Schains
+    network: mainnet
+    source:
+      address: '0x0fCa003F483313869ee54e86B281348980B4cbf6'
+      abi: Schains
+      startBlock: 10363122	
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Schain
+        - SchainNode
+        - SchainMeta
+        - SchainOwner
+      abis:
+        - name: Schains
+          file: ./abis/Schains.json
+      eventHandlers:
+        - event: SchainCreated(string,address,uint256,uint256,uint256,uint256,uint16,bytes32,uint256,uint256)
+          handler: handleSchainCreated
+        - event: NodeRotated(bytes32,uint256,uint256)
+          handler: handleNodeRotated
+        - event: NodeAdded(bytes32,uint256)
+          handler: handleNodeAdded
+        - event: SchainNodes(string,bytes32,uint256[],uint256,uint256)
+          handler: handleSchainNodes
+      file: ./src/mappings/Schains.ts
+
+  - kind: ethereum/contract
+    name: SchainsInternal
+    network: mainnet
+    source:
+      address: '0x836Df73065Cb143bdDF3106e46783d43C12C6012'
+      abi: SchainsInternal
+      startBlock: 10362591	
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Schain
+      abis:
+        - name: SchainsInternal
+          file: ./abis/SchainsInternal.json
+      callHandlers:
+        - function: changeLifetime(bytes32,uint256,uint256)
+          handler: handlechangeLifetime
+      file: ./src/mappings/SchainsInternal.ts

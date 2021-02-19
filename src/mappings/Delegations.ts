@@ -1,4 +1,3 @@
-import { log, BigInt } from '@graphprotocol/graph-ts'
 import {
   DelegationController,
   DelegationAccepted,
