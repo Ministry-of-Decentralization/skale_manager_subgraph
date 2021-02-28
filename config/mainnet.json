@@ -1,0 +1,31 @@
+{
+  "networkName": "mainnet",
+  "contracts": {
+    "ValidatorService": {
+      "address": "0x840C8122433A5AA7ad60C1Bcdc36AB9DcCF761a5",
+      "startBlock": 10362576,
+      "abiFile": "./abis/mainnet/ValidatorService.json"
+    },
+    "Nodes": {
+      "address": "0xD489665414D051336CE2F2C6e4184De0409e40ba",
+      "startBlock": 10362579,
+      "abiFile": "./abis/mainnet/Nodes.json",
+      "NodeCreatedArgs": "(uint256,address,string,bytes4,bytes4,uint16,uint16,uint256,uint256)"
+    },
+    "DelegationController": {
+      "address": "0x06dD71dAb27C1A3e0B172d53735f00Bf1a66Eb79",
+      "startBlock": 10362559,
+      "abiFile": "./abis/mainnet/DelegationController.json"
+    },
+    "Schains": {
+      "address": "0x0fCa003F483313869ee54e86B281348980B4cbf6",
+      "startBlock": 10363122,
+      "abiFile": "./abis/mainnet/Schains.json"
+    },
+    "SchainsInternal": {
+      "address": "0x836Df73065Cb143bdDF3106e46783d43C12C6012",
+      "startBlock": 10362591,
+      "abiFile": "./abis/mainnet/SchainsInternal.json"
+    }
+  }
+}

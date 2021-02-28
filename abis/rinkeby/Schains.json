@@ -1,0 +1,581 @@
+{
+  "name": "Schains",
+  "address": "0x08212eB2391F644dcf2F9cF431D540E1f04041C7",
+  "abi": [
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "NodeAdded",
+      "inputs": [
+        {
+          "type": "bytes32",
+          "name": "schainId",
+          "indexed": false
+        },
+        {
+          "type": "uint256",
+          "name": "newNode",
+          "indexed": false
+        }
+      ]
+    },
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "NodeRotated",
+      "inputs": [
+        {
+          "type": "bytes32",
+          "name": "schainId",
+          "indexed": false
+        },
+        {
+          "type": "uint256",
+          "name": "oldNode",
+          "indexed": false
+        },
+        {
+          "type": "uint256",
+          "name": "newNode",
+          "indexed": false
+        }
+      ]
+    },
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "RoleGranted",
+      "inputs": [
+        {
+          "type": "bytes32",
+          "name": "role",
+          "indexed": true
+        },
+        {
+          "type": "address",
+          "name": "account",
+          "indexed": true
+        },
+        {
+          "type": "address",
+          "name": "sender",
+          "indexed": true
+        }
+      ]
+    },
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "RoleRevoked",
+      "inputs": [
+        {
+          "type": "bytes32",
+          "name": "role",
+          "indexed": true
+        },
+        {
+          "type": "address",
+          "name": "account",
+          "indexed": true
+        },
+        {
+          "type": "address",
+          "name": "sender",
+          "indexed": true
+        }
+      ]
+    },
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "SchainCreated",
+      "inputs": [
+        {
+          "type": "string",
+          "name": "name",
+          "indexed": false
+        },
+        {
+          "type": "address",
+          "name": "owner",
+          "indexed": false
+        },
+        {
+          "type": "uint256",
+          "name": "partOfNode",
+          "indexed": false
+        },
+        {
+          "type": "uint256",
+          "name": "lifetime",
+          "indexed": false
+        },
+        {
+          "type": "uint256",
+          "name": "numberOfNodes",
+          "indexed": false
+        },
+        {
+          "type": "uint256",
+          "name": "deposit",
+          "indexed": false
+        },
+        {
+          "type": "uint16",
+          "name": "nonce",
+          "indexed": false
+        },
+        {
+          "type": "bytes32",
+          "name": "schainId",
+          "indexed": false
+        },
+        {
+          "type": "uint256",
+          "name": "time",
+          "indexed": false
+        },
+        {
+          "type": "uint256",
+          "name": "gasSpend",
+          "indexed": false
+        }
+      ]
+    },
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "SchainDeleted",
+      "inputs": [
+        {
+          "type": "address",
+          "name": "owner",
+          "indexed": false
+        },
+        {
+          "type": "string",
+          "name": "name",
+          "indexed": false
+        },
+        {
+          "type": "bytes32",
+          "name": "schainId",
+          "indexed": true
+        }
+      ]
+    },
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "SchainNodes",
+      "inputs": [
+        {
+          "type": "string",
+          "name": "name",
+          "indexed": false
+        },
+        {
+          "type": "bytes32",
+          "name": "schainId",
+          "indexed": false
+        },
+        {
+          "type": "uint256[]",
+          "name": "nodesInGroup",
+          "indexed": false
+        },
+        {
+          "type": "uint256",
+          "name": "time",
+          "indexed": false
+        },
+        {
+          "type": "uint256",
+          "name": "gasSpend",
+          "indexed": false
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "DEFAULT_ADMIN_ROLE",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "bytes32"
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "SCHAIN_CREATOR_ROLE",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "bytes32"
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "addSchain",
+      "constant": false,
+      "payable": false,
+      "inputs": [
+        {
+          "type": "address",
+          "name": "from"
+        },
+        {
+          "type": "uint256",
+          "name": "deposit"
+        },
+        {
+          "type": "bytes",
+          "name": "data"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "addSchainByFoundation",
+      "constant": false,
+      "stateMutability": "payable",
+      "payable": true,
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "lifetime"
+        },
+        {
+          "type": "uint8",
+          "name": "typeOfSchain"
+        },
+        {
+          "type": "uint16",
+          "name": "nonce"
+        },
+        {
+          "type": "string",
+          "name": "name"
+        },
+        {
+          "type": "address",
+          "name": "schainOwner"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "addSpace",
+      "constant": false,
+      "payable": false,
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "nodeIndex"
+        },
+        {
+          "type": "uint8",
+          "name": "partOfNode"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "contractManager",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "deleteSchain",
+      "constant": false,
+      "payable": false,
+      "inputs": [
+        {
+          "type": "address",
+          "name": "from"
+        },
+        {
+          "type": "string",
+          "name": "name"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "deleteSchainByRoot",
+      "constant": false,
+      "payable": false,
+      "inputs": [
+        {
+          "type": "string",
+          "name": "name"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "getNodesDataFromTypeOfSchain",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "typeOfSchain"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": "numberOfNodes"
+        },
+        {
+          "type": "uint8",
+          "name": "partOfNode"
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "getRoleAdmin",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [
+        {
+          "type": "bytes32",
+          "name": "role"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "bytes32"
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "getRoleMember",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [
+        {
+          "type": "bytes32",
+          "name": "role"
+        },
+        {
+          "type": "uint256",
+          "name": "index"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "getRoleMemberCount",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [
+        {
+          "type": "bytes32",
+          "name": "role"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "getSchainPrice",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "typeOfSchain"
+        },
+        {
+          "type": "uint256",
+          "name": "lifetime"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "grantRole",
+      "constant": false,
+      "payable": false,
+      "inputs": [
+        {
+          "type": "bytes32",
+          "name": "role"
+        },
+        {
+          "type": "address",
+          "name": "account"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "hasRole",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [
+        {
+          "type": "bytes32",
+          "name": "role"
+        },
+        {
+          "type": "address",
+          "name": "account"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "initialize",
+      "constant": false,
+      "payable": false,
+      "inputs": [
+        {
+          "type": "address",
+          "name": "newContractsAddress"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "renounceRole",
+      "constant": false,
+      "payable": false,
+      "inputs": [
+        {
+          "type": "bytes32",
+          "name": "role"
+        },
+        {
+          "type": "address",
+          "name": "account"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "restartSchainCreation",
+      "constant": false,
+      "payable": false,
+      "inputs": [
+        {
+          "type": "string",
+          "name": "name"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "revokeRole",
+      "constant": false,
+      "payable": false,
+      "inputs": [
+        {
+          "type": "bytes32",
+          "name": "role"
+        },
+        {
+          "type": "address",
+          "name": "account"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "verifySchainSignature",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "signatureA"
+        },
+        {
+          "type": "uint256",
+          "name": "signatureB"
+        },
+        {
+          "type": "bytes32",
+          "name": "hash"
+        },
+        {
+          "type": "uint256",
+          "name": "counter"
+        },
+        {
+          "type": "uint256",
+          "name": "hashA"
+        },
+        {
+          "type": "uint256",
+          "name": "hashB"
+        },
+        {
+          "type": "string",
+          "name": "schainName"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "bool"
+        }
+      ]
+    }
+  ]
+}

@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: ValidatorService
-    network: mainnet
+    network: {{networkName}}
     source:
-      address:  '0x840C8122433A5AA7ad60C1Bcdc36AB9DcCF761a5'
+      address:  '{{contracts.ValidatorService.address}}'
       abi: ValidatorService
-      startBlock: 10362576
+      startBlock: {{contracts.ValidatorService.startBlock}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -21,7 +21,7 @@ dataSources:
         - NodeAddress
       abis:
         - name: ValidatorService
-          file: ./abis/mainnet/ValidatorService.json
+          file: {{{contracts.ValidatorService.abiFile}}}
       eventHandlers:
         - event: ValidatorRegistered(uint256)
           handler: handleValidatorRegistered
@@ -39,11 +39,11 @@ dataSources:
 
   - kind: ethereum/contract
     name: Nodes
-    network: mainnet
+    network: {{networkName}}
     source:
-      address: '0xD489665414D051336CE2F2C6e4184De0409e40ba'
+      address: '{{contracts.Nodes.address}}'
       abi: Nodes
-      startBlock: 10362579		
+      startBlock: {{contracts.Nodes.startBlock}}		
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -52,9 +52,9 @@ dataSources:
         - Node
       abis:
         - name: Nodes
-          file: ./abis/mainnet/Nodes.json
+          file: {{{contracts.Nodes.abiFile}}}
       eventHandlers:
-        - event: NodeCreated(uint256,address,string,bytes4,bytes4,uint16,uint16,uint256,uint256)
+        - event: NodeCreated{{contracts.Nodes.NodeCreatedArgs}}
           handler: handleNodeCreated
         - event: ExitInitialized(uint256,uint256,uint256,uint256)
           handler: handleExitInitialized
@@ -64,11 +64,11 @@ dataSources:
 
   - kind: ethereum/contract
     name: DelegationController
-    network: mainnet
+    network: {{networkName}}
     source:
-      address: '0x06dD71dAb27C1A3e0B172d53735f00Bf1a66Eb79'
+      address: '{{contracts.DelegationController.address}}'
       abi: DelegationController
-      startBlock: 10362559		
+      startBlock: {{contracts.DelegationController.startBlock}}		
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -80,7 +80,7 @@ dataSources:
         - Validator
       abis:
         - name: DelegationController
-          file: ./abis/mainnet/DelegationController.json
+          file: {{{contracts.DelegationController.abiFile}}}
       eventHandlers:
         - event: DelegationProposed(uint256)
           handler: handleDelegationProposed
@@ -94,11 +94,11 @@ dataSources:
 
   - kind: ethereum/contract
     name: Schains
-    network: mainnet
+    network: {{networkName}}
     source:
-      address: '0x0fCa003F483313869ee54e86B281348980B4cbf6'
+      address: '{{contracts.Schains.address}}'
       abi: Schains
-      startBlock: 10363122		
+      startBlock: {{contracts.Schains.startBlock}}		
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -110,7 +110,7 @@ dataSources:
         - SchainOwner
       abis:
         - name: Schains
-          file: ./abis/mainnet/Schains.json
+          file: {{{contracts.Schains.abiFile}}}
       eventHandlers:
         - event: SchainCreated(string,address,uint256,uint256,uint256,uint256,uint16,bytes32,uint256,uint256)
           handler: handleSchainCreated
@@ -121,3 +121,24 @@ dataSources:
         - event: SchainNodes(string,bytes32,uint256[],uint256,uint256)
           handler: handleSchainNodes
       file: ./src/mappings/Schains.ts
+
+  - kind: ethereum/contract
+    name: SchainsInternal
+    network: {{networkName}}
+    source:
+      address: '{{contracts.SchainsInternal.address}}'
+      abi: SchainsInternal
+      startBlock: {{contracts.SchainsInternal.startBlock}}	
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Schain
+      abis:
+        - name: SchainsInternal
+          file: {{{contracts.SchainsInternal.abiFile}}}
+      callHandlers:
+        - function: changeLifetime(bytes32,uint256,uint256)
+          handler: handlechangeLifetime
+      file: ./src/mappings/SchainsInternal.ts
