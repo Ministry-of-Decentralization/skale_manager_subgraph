@@ -54,7 +54,7 @@ type Node @entity {
   lastRewardDate: BigInt!
   status: String!
   validator: Validator
-  schains: [SchainNode!]! @derivedFom(field: "node")
+  schains: [SchainNode!] @derivedFom(field: "node")
 }
 
 type Delegator @entity {

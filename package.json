@@ -4,7 +4,10 @@
   "description": "Subgraph for Skale Network",
   "license": "AGPL-3.0",
   "scripts": {
-    "fork-mainnet": "npx hardhat node --hostname 0.0.0.0 --fork NODE_ENDPOINT --fork-block-number 10921255",
+    "prepare:mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:rinkeby": "mustache config/rinkeby.json subgraph.template.yaml > subgraph.yaml",
+    "set-local-state": "npx hardhat run ./scripts/setLocalState.js",
+    "fork-mainnet": "npx hardhat node --hostname 0.0.0.0 --fork https://eth-mainnet.alchemyapi.io/v2/304c4kqHfuMyJolP-IgeRxiD_xEUh6fN --fork-block-number 10370374",
     "codegen": "graph codegen",
     "build": "graph build",
     "create-local": "graph create Ministry-Of-Decentralization/skale_manager_subgraph --node http://127.0.0.1:8020",
@@ -19,5 +22,8 @@
     "ethereum-waffle": "^3.0.0",
     "ethers": "^5.0.0",
     "hardhat": "^2.0.8"
+  },
+  "dependencies": {
+    "mustache": "^4.1.0"
   }
 }

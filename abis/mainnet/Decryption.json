@@ -1,0 +1,54 @@
+{
+  "name": "Decryption",
+  "address": "0x9257B149889A76c7A86BFfA5820f06FaBca3a9a1",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "secretNumber",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "key",
+          "type": "bytes32"
+        }
+      ],
+      "name": "encrypt",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "ciphertext",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "ciphertext",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "key",
+          "type": "bytes32"
+        }
+      ],
+      "name": "decrypt",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "secretNumber",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ]
+}

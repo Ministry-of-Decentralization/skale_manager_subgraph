@@ -1,0 +1,60 @@
+{
+  "mainnet": {
+    "contracts": {
+      "ValidatorService": {
+        "address": "0x840C8122433A5AA7ad60C1Bcdc36AB9DcCF761a5",
+        "startBlock": 10362576,
+        "abiFile": "./abis/mainnet/ValidatorService.json"
+      },
+      "Nodes": {
+        "address": "0xD489665414D051336CE2F2C6e4184De0409e40ba",
+        "startBlock": 10362579,
+        "abiFile": "./abis/mainnet/Nodes.json"
+      },
+      "DelegationController": {
+        "address": "0x06dD71dAb27C1A3e0B172d53735f00Bf1a66Eb79",
+        "startBlock": 10362559,
+        "abiFile": "./abis/mainnet/DelegationController.json"
+      },
+      "Schains": {
+        "address": "0x0fCa003F483313869ee54e86B281348980B4cbf6",
+        "startBlock": 10363122,
+        "abiFile": "./abis/mainnet/Schains.json"
+      },
+      "SchainsInternal": {
+        "address": "0x836Df73065Cb143bdDF3106e46783d43C12C6012",
+        "startBlock": 10362591,
+        "abiFile": "./abis/mainnet/SchainsInternal.json"
+      }
+    }
+  },
+  "rinkeby": {
+    "contracts": {
+      "ValidatorService": {
+        "address": "0x5689C1A7CD54BF381599F47C01aA6112E4dFC758",
+        "startBlock": 7517489,
+        "abiFile": "./abis/rinkeby/ValidatorService.json"
+      },
+      "Nodes": {
+        "address": "0x53720ad0A6e389921c3db0Cc41b8Ff4B4E66d19C",
+        "startBlock": 7517491,
+        "abiFile": "./abis/rinkeby/Nodes.json"
+      },
+      "DelegationController": {
+        "address": "0x45CB571BE6dae6c9C8E45182a542848d14d6e8ed",
+        "startBlock": 7517479,
+        "abiFile": "./abis/rinkeby/DelegationController.json"
+      },
+      "Schains": {
+        "address": "0x08212eB2391F644dcf2F9cF431D540E1f04041C7",
+        "startBlock": 7517495,
+        "abiFile": "./abis/rinkeby/Schains.json"
+      },
+      "SchainsInternal": {
+        "address": "0x15bA21A241E29377A2573bE052BbfDc9dEdd2A3A",
+        "startBlock": 7517494,
+        "abiFile": "d./abis/rinkeby/SchainsInternal.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "networkName": "rinkeby",
+  "contracts": {
+    "ValidatorService": {
+      "address": "0x5689C1A7CD54BF381599F47C01aA6112E4dFC758",
+      "startBlock": 7517489,
+      "abiFile": "./abis/rinkeby/ValidatorService.json"
+    },
+    "Nodes": {
+      "address": "0x53720ad0A6e389921c3db0Cc41b8Ff4B4E66d19C",
+      "startBlock": 7517491,
+      "abiFile": "./abis/rinkeby/Nodes.json",
+      "NodeCreatedArgs": "(uint256,address,string,bytes4,bytes4,uint16,uint16,string,uint256,uint256)"
+    },
+    "DelegationController": {
+      "address": "0x45CB571BE6dae6c9C8E45182a542848d14d6e8ed",
+      "startBlock": 7517479,
+      "abiFile": "./abis/rinkeby/DelegationController.json"
+    },
+    "Schains": {
+      "address": "0x08212eB2391F644dcf2F9cF431D540E1f04041C7",
+      "startBlock": 7517495,
+      "abiFile": "./abis/rinkeby/Schains.json"
+    },
+    "SchainsInternal": {
+      "address": "0x15bA21A241E29377A2573bE052BbfDc9dEdd2A3A",
+      "startBlock": 7517494,
+      "abiFile": "./abis/rinkeby/SchainsInternal.json"
+    }
+  }
+}
