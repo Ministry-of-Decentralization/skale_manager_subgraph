@@ -26,6 +26,11 @@
       "address": "0x836Df73065Cb143bdDF3106e46783d43C12C6012",
       "startBlock": 10362591,
       "abiFile": "./abis/mainnet/SchainsInternal.json"
+    },
+    "Distributor": {
+      "address": "0x2a42Ccca55FdE8a9CA2D7f3C66fcddE99B4baB90",
+      "startBlock": 10362562,
+      "abiFile": "./abis/mainnet/Distributor.json"
     }
   }
 }

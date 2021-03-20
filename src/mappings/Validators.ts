@@ -53,6 +53,7 @@ export function handleValidatorWasDisabled(event: ValidatorWasDisabled): void {
 export function handleValidatorAddressChanged(event: ValidatorAddressChanged): void {
   let validator = Validator.load(event.params.validatorId.toString())
   validator.address = event.params.newAddress
+  
   validator.save()
 }
 
@@ -93,6 +94,7 @@ export function handleValidatorRegistered(event: ValidatorRegistered): void {
   validator.registeredBlock = block
   validator.currentDelegationCount = ZERO
   validator.currentDelegationAmount = ZERO
+  validator.claimedFee = ZERO
 
   validator.save()
 }

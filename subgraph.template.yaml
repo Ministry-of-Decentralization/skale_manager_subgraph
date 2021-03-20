@@ -142,3 +142,27 @@ dataSources:
         - function: changeLifetime(bytes32,uint256,uint256)
           handler: handlechangeLifetime
       file: ./src/mappings/SchainsInternal.ts
+
+  - kind: ethereum/contract
+    name: Distributor
+    network: {{networkName}}
+    source:
+      address: '{{contracts.Distributor.address}}'
+      abi: Distributor
+      startBlock: {{contracts.Distributor.startBlock}}	
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Validator
+        - Delegator
+      abis:
+        - name: Distributor
+          file: {{{contracts.Distributor.abiFile}}}
+      eventHandlers:
+        - event: WithdrawFee(uint256,address,uint256)
+          handler: handleWithdrawFee
+        - event: WithdrawBounty(address,uint256,address,uint256)
+          handler: handleWithdrawBounty
+      file: ./src/mappings/Distributor.ts

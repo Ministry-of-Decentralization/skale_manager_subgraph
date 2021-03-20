@@ -22,7 +22,7 @@ function getOrCreateSchainOwner(address: string): SchainOwner {
 
   if (owner == null) {
     owner = new SchainOwner(address)
-    owner.currentCount = ZERO
+    owner.currentSchainCount = ZERO
 
     owner.save()
   }
@@ -65,7 +65,7 @@ export function handleSchainCreated(event: SchainCreated): void {
   meta.currentCount = meta.currentCount.plus(ONE)
   meta.save()
 
-  owner.currentCount = owner.currentCount.plus(ONE)
+  owner.currentSchainCount = owner.currentSchainCount.plus(ONE)
   owner.save()
   
   schain.name = event.params.name
@@ -91,7 +91,7 @@ export function handleSchainDeleted(event: SchainDeleted): void {
 
   // update the Schain Owner
   let owner = SchainOwner.load(schain.owner)
-  owner.currentCount = owner.currentCount.minus(ONE)
+  owner.currentSchainCount = owner.currentSchainCount.minus(ONE)
 
   // update the meta
   let meta = SchainMeta.load(SCHAINS_META_ID)

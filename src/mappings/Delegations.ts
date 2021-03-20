@@ -6,7 +6,7 @@ import {
   DelegationProposed
  } from '../../generated/DelegationController/DelegationController'
 import { Delegation, DelegationMeta, Delegator, Validator } from '../../generated/schema'
-import { getOrCreateBlock, ZERO, ONE } from './common'
+import { getOrCreateBlock, getOrCreateDelegator, ZERO, ONE } from './common'
 
 const DELEGATION_META_ID = 'delegation_meta'
 
@@ -27,20 +27,6 @@ function getOrCreateDelegationMeta(): DelegationMeta {
   }
 
   return meta as DelegationMeta
-}
-
-function getOrCreateDelegator(address: string): Delegator {
-  let delegator = Delegator.load(address)
-
-  if (delegator == null) {
-    delegator = new Delegator(address)
-    delegator.currentCount = ZERO
-    delegator.currentAmount = ZERO
-
-    delegator.save()
-  }
-
-  return delegator as Delegator
 }
 
 export function handleDelegationAccepted(event: DelegationAccepted): void {

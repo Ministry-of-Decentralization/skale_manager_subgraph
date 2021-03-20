@@ -30,9 +30,10 @@ type Validator @entity {
   registeredBlock: Block!
   nodeAddresses: [NodeAddress!]! @derivedFrom(field: "validator")
   nodes: [Node!]! @derivedFrom(field: "validator")
-  delegations: [Delegation!] @derivedFom(field: "validator")
+  delegations: [Delegation!]! @derivedFrom(field: "validator")
   currentDelegationCount: BigInt!
   currentDelegationAmount: BigInt!
+  claimedFee: BigInt!
 }
 
 type NodeAddress @entity {
@@ -63,6 +64,7 @@ type Delegator @entity {
   delegations: [Delegation!]! @derivedFrom(field: "holder")
   currentCount: BigInt!
   currentAmount: BigInt!
+  claimedBounty: BigInt!
 }
 
 type DelegationMeta @entity {
@@ -96,7 +98,7 @@ type SchainMeta @entity {
 type SchainOwner @entity {
   "Statistics for individual Skale Chain owners"
   id: ID! # address
-  currentCount: BigInt!
+  currentSchainCount: BigInt!
 }
 
 type SchainNode @entity {
