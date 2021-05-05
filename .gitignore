@@ -5,5 +5,7 @@ generated
 #Hardhat files
 cache
 artifacts
+.env
+/data
 
 

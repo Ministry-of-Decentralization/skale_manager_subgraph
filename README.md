@@ -8,8 +8,15 @@ To run the subgraph locally you need to run the graph node locally and connect t
 #### Configure the Ethereum Mainnet node
 in `package.json` replace `NODE_ENDPOINT` with your mainnet rpc endpoint
 
-#### Fork Mainnet locally
-`yarn fork-mainnet`
+#### Connect To a Node 
+Fork Mainnet locally `yarn fork-mainnet`
+
+ OR
+
+Run Directly against a Node
+
+Set the endpoint in the .env file
+
 
 #### Run the Graph Node
 `docker-compose up`
@@ -17,7 +24,7 @@ in `package.json` replace `NODE_ENDPOINT` with your mainnet rpc endpoint
 #### Deploy the Subgraph
 `yarn`
 
-`yarn codegen`
+`yarn prepare:mainnet`
 
 `yarn build`
 

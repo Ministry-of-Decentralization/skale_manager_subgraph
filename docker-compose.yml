@@ -17,9 +17,8 @@ services:
       postgres_pass: let-me-in
       postgres_db: graph-node
       ipfs: 'ipfs:5001'
-      ethereum: 'mainnet:http://172.18.0.1:8545'
-      # ethereum: 'mainnet:https://eth-mainnet.alchemyapi.io/v2/304c4kqHfuMyJolP-IgeRxiD_xEUh6fN'
-      # ethereum: 'testnet:https://eth-rinkeby.alchemyapi.io/v2/304c4kqHfuMyJolP-IgeRxiD_xEUh6fN'
+      ethereum: 'mainnet:${ETHEREUM_MAINNET}'
+      # ethereum: 'testnet:${ETHEREUM_TESTNET}'
       RUST_LOG: info
       RUST_BACKTRACE: 1
       ETHEREUM_REORG_THRESHOLD: 2
